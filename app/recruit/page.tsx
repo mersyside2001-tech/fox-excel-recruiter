@@ -151,6 +151,10 @@ export default function RecruitPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!form.name.trim()) {
+      setError("Please enter a candidate name.");
+      return;
+    }
     if (!form.cvText.trim()) {
       setExtractError("Please upload a CV or paste the CV text.");
       return;
@@ -190,7 +194,7 @@ export default function RecruitPage() {
 
       <div className="max-w-2xl mx-auto px-4 py-8">
         {/* Form */}
-        <form onSubmit={handleSubmit} noValidate className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+        <form onSubmit={handleSubmit} noValidate autoComplete="off" className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
           <h2 className="text-lg font-medium text-gray-900 mb-1">Screen a candidate</h2>
           <p className="text-sm text-gray-500 mb-4">Scores against CDP — pub kitchen.</p>
 
@@ -201,7 +205,6 @@ export default function RecruitPage() {
               </label>
               <input
                 type="text"
-                required
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -236,7 +239,6 @@ export default function RecruitPage() {
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".pdf,.docx"
                 onChange={handleFileInput}
                 className="sr-only"
               />
