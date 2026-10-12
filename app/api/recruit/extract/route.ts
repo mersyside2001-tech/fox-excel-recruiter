@@ -58,10 +58,15 @@ export async function POST(req: NextRequest) {
       // pdf-parse v1 exports a plain async function; v2 is class-based and breaks
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       const pdfParse = require("pdf-parse") as (buf: Buffer) => Promise<{ text: string }>;
-      const result = await pdfParse(buffer);
-      text = cleanText(result.text);
+      // pdf-parse bundles an old pdf.js that throws on some valid PDFs (e.g. "bad XRef entry")
+      try {
+        const result = await pdfParse(buffer);
+        text = cleanText(result.text);
+      } catch (err) {
+        console.warn("pdf-parse failed, falling back to OCR:", err);
+      }
 
-      // Scanned/image PDF — fall back to Claude vision OCR
+      // Scanned/image PDF, or one pdf-parse could not read — fall back to Claude vision OCR
       if (!text) {
         text = await ocrWithClaude(buffer);
       }
