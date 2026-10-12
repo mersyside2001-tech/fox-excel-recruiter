@@ -190,7 +190,7 @@ export default function RecruitPage() {
 
       <div className="max-w-2xl mx-auto px-4 py-8">
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+        <form onSubmit={handleSubmit} noValidate className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
           <h2 className="text-lg font-medium text-gray-900 mb-1">Screen a candidate</h2>
           <p className="text-sm text-gray-500 mb-4">Scores against CDP — pub kitchen.</p>
 
