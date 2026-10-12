@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "../../../lib/prisma";
 
 function getClient() {
   const apiKey = process.env.FOX_EXCEL_ANTHROPIC_KEY;
