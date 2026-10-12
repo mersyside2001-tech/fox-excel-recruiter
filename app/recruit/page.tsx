@@ -104,11 +104,15 @@ export default function RecruitPage() {
   const [uploadedFileName, setUploadedFileName] = useState("");
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const mountedRef = useRef(false);
 
   // Clear any error state that may have been set before hydration
   useEffect(() => {
+    mountedRef.current = true;
     setExtractError("");
     setError("");
+    // Clear the file input on mount to prevent Safari restoring a cached file selection
+    if (fileInputRef.current) fileInputRef.current.value = "";
   }, []);
 
   async function handleFile(file: File) {
@@ -136,6 +140,7 @@ export default function RecruitPage() {
   }
 
   function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!mountedRef.current) return;
     const file = e.target.files?.[0];
     if (file) handleFile(file);
     e.target.value = "";
