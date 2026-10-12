@@ -106,6 +106,7 @@ export default function RecruitPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const mountedRef = useRef(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
 
   // Clear any error state that may have been set before hydration
   useEffect(() => {
@@ -115,6 +116,9 @@ export default function RecruitPage() {
     setError("");
     // Clear the file input on mount to prevent Safari restoring a cached file selection
     if (fileInputRef.current) fileInputRef.current.value = "";
+    // Delay showing errors to suppress any that fire during Safari session restoration
+    const t = setTimeout(() => setShowErrors(true), 500);
+    return () => clearTimeout(t);
   }, []);
 
   async function handleFile(file: File) {
@@ -320,7 +324,7 @@ export default function RecruitPage() {
           </button>
         </form>
 
-        {extractError && (
+        {showErrors && extractError && (
           <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">{extractError}</div>
         )}
 
