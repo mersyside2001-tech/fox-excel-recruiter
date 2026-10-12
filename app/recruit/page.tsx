@@ -137,6 +137,7 @@ export default function RecruitPage() {
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     setIsDragging(false);
     const file = e.dataTransfer.files?.[0];
     if (file) handleFile(file);
@@ -222,7 +223,7 @@ export default function RecruitPage() {
             </label>
             <div
               onDrop={handleDrop}
-              onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+              onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); setIsDragging(true); }}
               onDragLeave={() => setIsDragging(false)}
               onClick={() => !extracting && fileInputRef.current?.click()}
               className={`mb-3 flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed px-6 py-5 cursor-pointer transition-colors
@@ -232,7 +233,7 @@ export default function RecruitPage() {
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".pdf,.docx"
+                accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 onChange={handleFileInput}
                 className="hidden"
               />
