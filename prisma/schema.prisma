@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  AKM
+  CDP
+}
+
+model Candidate {
+  id         String            @id @default(cuid())
+  name       String
+  email      String?
+  cvText     String
+  createdAt  DateTime          @default(now())
+  screenings ScreeningResult[]
+}
+
+model ScreeningResult {
+  id              String    @id @default(cuid())
+  candidateId     String
+  candidate       Candidate @relation(fields: [candidateId], references: [id])
+  role            Role
+  verdict         String
+  overallScore    Int
+  volumeScore     Int
+  leadershipScore Int
+  venueFitScore   Int
+  commitmentScore Int
+  strengths       String
+  concerns        String
+  recommendation  String
+  createdAt       DateTime  @default(now())
+
+  @@unique([candidateId, role])
+}
