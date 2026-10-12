@@ -151,6 +151,10 @@ export default function RecruitPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!form.cvText.trim()) {
+      setExtractError("Please upload a CV or paste the CV text.");
+      return;
+    }
     setLoading(true);
     setResult(null);
     setError("");
@@ -271,7 +275,6 @@ export default function RecruitPage() {
             )}
             <div className="relative">
               <textarea
-                required
                 rows={8}
                 value={form.cvText}
                 onChange={(e) => { setForm({ ...form, cvText: e.target.value }); if (uploadedFileName) setUploadedFileName(""); }}
