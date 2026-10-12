@@ -271,7 +271,7 @@ export default function RecruitPage() {
               )}
             </label>
             {extractError && (
-              <p className="mb-2 text-xs text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">{extractError}</p>
+              <div className="mb-2 text-xs text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">{extractError}</div>
             )}
             <div className="relative">
               <textarea
