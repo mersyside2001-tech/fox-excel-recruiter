@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 
 const VERDICT_STYLES: Record<string, string> = {
@@ -104,6 +104,12 @@ export default function RecruitPage() {
   const [uploadedFileName, setUploadedFileName] = useState("");
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Clear any error state that may have been set before hydration
+  useEffect(() => {
+    setExtractError("");
+    setError("");
+  }, []);
 
   async function handleFile(file: File) {
     const name = file.name.toLowerCase();
