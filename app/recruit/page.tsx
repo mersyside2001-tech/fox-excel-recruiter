@@ -221,21 +221,20 @@ export default function RecruitPage() {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               CV <span className="text-red-500">*</span>
             </label>
-            <div
+            <label
               onDrop={handleDrop}
               onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); setIsDragging(true); }}
               onDragLeave={() => setIsDragging(false)}
-              onClick={() => !extracting && fileInputRef.current?.click()}
               className={`mb-3 flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed px-6 py-5 cursor-pointer transition-colors
                 ${isDragging ? "border-indigo-400 bg-indigo-50" : "border-gray-300 bg-gray-50 hover:border-indigo-300 hover:bg-indigo-50/40"}
-                ${extracting ? "cursor-wait opacity-70" : ""}`}
+                ${extracting ? "cursor-wait opacity-70 pointer-events-none" : ""}`}
             >
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                accept=".pdf,.docx"
                 onChange={handleFileInput}
-                className="hidden"
+                className="sr-only"
               />
               {extracting ? (
                 <div className="flex items-center gap-2 text-sm text-indigo-600">
@@ -251,7 +250,7 @@ export default function RecruitPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <span className="text-sm text-gray-700 font-medium truncate max-w-xs">{uploadedFileName}</span>
-                  <button type="button" onClick={(e) => { e.stopPropagation(); clearFile(); }} className="text-xs text-gray-400 hover:text-red-500 transition-colors">
+                  <button type="button" onClick={(e) => { e.preventDefault(); clearFile(); }} className="text-xs text-gray-400 hover:text-red-500 transition-colors">
                     ✕ Remove
                   </button>
                 </div>
@@ -266,7 +265,7 @@ export default function RecruitPage() {
                   </div>
                 </>
               )}
-            </div>
+            </label>
             {extractError && (
               <p className="mb-2 text-xs text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">{extractError}</p>
             )}
