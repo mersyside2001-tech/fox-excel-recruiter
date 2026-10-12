@@ -105,10 +105,12 @@ export default function RecruitPage() {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const mountedRef = useRef(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   // Clear any error state that may have been set before hydration
   useEffect(() => {
     mountedRef.current = true;
+    setIsMounted(true);
     setExtractError("");
     setError("");
     // Clear the file input on mount to prevent Safari restoring a cached file selection
@@ -250,7 +252,7 @@ export default function RecruitPage() {
               <input
                 ref={fileInputRef}
                 type="file"
-                onChange={handleFileInput}
+                onChange={isMounted ? handleFileInput : undefined}
                 className="sr-only"
               />
               {extracting ? (
